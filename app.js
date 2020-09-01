@@ -17,12 +17,12 @@ app.get('/insert', function (req, res) {
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb+srv://truongls:truong1@asm2.egt6u.mongodb.net/test";
+var url = "mongodb://heroku_tc9nzks7:guscnrp9f9ua8p43oln0a07od9@ds261917.mlab.com:61917/heroku_tc9nzks7";
 app.post('/doRegister', async (req, res) => {
     let client = await MongoClient.connect(url);
     let inputName = req.body.txtName;
     let inputPrice = req.body.txtPrice;
-    let dbo = client.db("ProductDB");
+    let dbo = client.db("heroku_tc9nzks7");
     let data = {
         name: inputName,
         price: inputPrice,
@@ -32,7 +32,7 @@ app.post('/doRegister', async (req, res) => {
 })
 app.get("/listsanpham", async (req, res) => {
     let client = await MongoClient.connect(url);
-    let dbo = client.db("ProductDB");
+    let dbo = client.db("heroku_tc9nzks7");
     let result = await dbo.collection("Product").find({}).toArray();
     res.render("listsanpham", { model: result });
 })
@@ -40,7 +40,7 @@ app.get('/remove', async (req, res) => {
     let id = req.query.id;
     var ObjectID = require('mongodb').ObjectID;
     let client = await MongoClient.connect(url);
-    let dbo = client.db("ProductDB");
+    let dbo = client.db("heroku_tc9nzks7");
     await dbo.collection("Product").deleteOne({ _id: ObjectID(id) });
     res.redirect('/listsanpham');
 })
